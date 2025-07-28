@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "oouth-e2a0e"
+  },
+  "targets": {
+    "oouth-e2a0e": {
+      "hosting": {
+        "oouth-e2a0e": [
+          "oouth-e2a0e"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

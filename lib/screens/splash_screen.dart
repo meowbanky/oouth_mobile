@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'login_screen.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'login_screen.dart'; // Import your login screen
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
     _navigateToLogin();
   }
 
-  _navigateToLogin() async {
+  Future<void> _navigateToLogin() async {
     await Future.delayed(const Duration(seconds: 3));
     if (!mounted) return;
 
@@ -29,54 +29,55 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.white,
-              Theme.of(context).primaryColor.withOpacity(0.1),
-            ],
-          ),
-        ),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: SafeArea(
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Logo
+              // Logo animation
               Image.asset(
-                'assets/images/oouth_logo.png', // Make sure this path is correct
-                width: 150,
-                height: 150,
-                fit: BoxFit.contain,
-              ),
+                'assets/images/oouth_logo.png',
+                height: 120,
+                width: 120,
+              )
+                  .animate()
+                  .fadeIn(duration: 800.ms)
+                  .scale(delay: 400.ms)
+                  .then(delay: 400.ms)
+                  .shimmer(duration: 1200.ms),
+
               const SizedBox(height: 24),
 
-              // App Name
+              // State logo
+              Image.asset(
+                'assets/images/ogun_logo.png',
+                height: 60,
+                width: 60,
+              )
+                  .animate()
+                  .fadeIn(delay: 600.ms, duration: 800.ms)
+                  .slideY(begin: 0.2),
+
+              const SizedBox(height: 48),
+
+              // App name with fade and slide
               Text(
-                'OOUTH Mobile',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).primaryColor,
-                ),
-              ),
+                'OOUTH MOBILE',
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              )
+                  .animate()
+                  .fadeIn(delay: 800.ms, duration: 800.ms)
+                  .slideY(begin: 0.2),
 
               const SizedBox(height: 24),
 
               // Loading indicator
-              SizedBox(
-                width: 40,
-                height: 40,
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    Theme.of(context).primaryColor,
-                  ),
-                  strokeWidth: 3,
-                ),
-              ),
+              const CircularProgressIndicator()
+                  .animate()
+                  .fadeIn(delay: 1200.ms),
             ],
           ),
         ),
