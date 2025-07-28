@@ -5,7 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'dart:io';
 import '../providers/auth_provider.dart';
 import '../services/payslip_service.dart';
 import '../models/period.dart';
@@ -260,9 +262,15 @@ class _PayslipScreenState extends State<PayslipScreen> {
         ),
       );
 
-      await Printing.sharePdf(
-        bytes: await pdf.save(),
-        filename: 'OOUTH_Payslip_${_selectedPeriod!.description}.pdf',
+      // Save PDF to temporary file and share
+      final bytes = await pdf.save();
+      final tempDir = await getTemporaryDirectory();
+      final file = File('${tempDir.path}/OOUTH_Payslip_${_selectedPeriod!.description}.pdf');
+      await file.writeAsBytes(bytes);
+      
+      await Share.shareXFiles(
+        [XFile(file.path)],
+        text: 'OOUTH Payslip for ${_selectedPeriod!.description}',
       );
     } catch (e) {
       _showError('Error generating PDF: $e');

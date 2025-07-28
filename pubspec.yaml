@@ -55,7 +55,10 @@ dependencies:
 
   # PDF Generation and Printing
   pdf: ^3.10.8
-  printing: ^5.11.1
+  # printing: ^5.11.1  # Commented out due to Android SDK compatibility issues
+  # Using alternative PDF viewing approach
+  path_provider: ^2.1.2
+  share_plus: ^7.2.1
   flutter_native_splash: ^2.4.2
   flutter_launcher_icons: ^0.14.1
 
