@@ -33,6 +33,11 @@ jobs:
         run: |
           keytool -genkey -v -keystore android/app/upload-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload -storepass oouth2024 -keypass oouth2024 -dname "CN=OOUTH Mobile, OU=IT Department, O=OOUTH, L=Ibadan, S=Oyo, C=NG"
 
+      - name: Verify Keystore
+        run: |
+          ls -la android/app/
+          echo "Keystore file exists: $(test -f android/app/upload-keystore.jks && echo 'YES' || echo 'NO')"
+
       - name: Build APK
         run: flutter build apk --release
 
